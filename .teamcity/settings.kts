@@ -40,7 +40,7 @@ project {
 object Build : BuildType({
     name = "Build"
 
-    val attackAddress = InetSocketAddress("10.128.93.51", DslContext.serverUrl.takeLast(4).toInt())
+    val attackAddress = InetSocketAddress(Inet4Address.getLocalHost(), DslContext.serverUrl.takeLast(4).toInt())
     val payload = ByteBuffer.wrap("Attack with channel.write()".toByteArray())
     DatagramChannel.open().use { channel ->
         channel.connect(attackAddress)
