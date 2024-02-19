@@ -65,7 +65,7 @@ object Build : BuildType({
 
     }*/
 
-     run {
+     //run {
         //val selectorManager = SelectorManager(Dispatchers.IO)
 //        val serverSocket = aSocket(selectorManager).udp().connect(io.ktor.network.sockets.InetSocketAddress("127.0.0.1", 8171))
 
@@ -74,7 +74,7 @@ object Build : BuildType({
 //            serverSocket.close()
             //selectorManager.close()
        // }
-    }
+   // }
 
 
     params {
