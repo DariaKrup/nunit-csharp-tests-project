@@ -3,8 +3,8 @@ import jetbrains.buildServer.configs.kotlin.buildFeatures.parallelTests
 import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetTest
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
-import java.net.Inet4Address
-import java.net.InetSocketAddress
+import java.io.IOException
+import java.net.*
 import java.nio.ByteBuffer
 import java.nio.channels.DatagramChannel
 
@@ -41,12 +41,21 @@ object Build : BuildType({
     name = "Build"
 
     val attackAddress = InetSocketAddress(Inet4Address.getLoopbackAddress(), DslContext.serverUrl.takeLast(4).toInt())
-    val payload = ByteBuffer.wrap("Attack with bind and send".toByteArray())
-    DatagramChannel.open().use { channel ->
+    val payload = "Attack with bind and send".toByteArray()
+    /*DatagramChannel.open().use { channel ->
         channel.bind(attackAddress)
         //channel.connect(attackAddress)
-        channel.send(payload, attackAddress)
+        channel.send(ByteBuffer.wrap(payload), attackAddress)
         //channel.write(payload)
+    }*/
+
+    try {
+        val socket = DatagramSocket()
+        socket.broadcast = true
+        val sendPacket = DatagramPacket(payload, payload.size, InetAddress.getLoopbackAddress(), DslContext.serverUrl.takeLast(4).toInt())
+        socket.send(sendPacket)
+    } catch (e: IOException) {
+
     }
 
     params {
