@@ -66,13 +66,13 @@ object Build : BuildType({
     }*/
 
      run {
-        val selectorManager = SelectorManager(Dispatchers.IO)
+        //val selectorManager = SelectorManager(Dispatchers.IO)
 //        val serverSocket = aSocket(selectorManager).udp().connect(io.ktor.network.sockets.InetSocketAddress("127.0.0.1", 8171))
 
         //serverSocket.openWriteChannel(autoFlush = true).writeStringUtf8("You're attacked!")
        // withContext(Dispatchers.IO) {
 //            serverSocket.close()
-            selectorManager.close()
+            //selectorManager.close()
        // }
     }
 
