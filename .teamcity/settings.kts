@@ -1,6 +1,7 @@
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
 import io.ktor.utils.io.*
+import io.ktor.utils.io.core.*
 import jetbrains.buildServer.configs.kotlin.*
 import jetbrains.buildServer.configs.kotlin.buildFeatures.parallelTests
 import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
@@ -11,8 +12,11 @@ import kotlinx.coroutines.runBlocking
 import java.io.IOException
 import java.net.*
 import java.net.InetSocketAddress
+import java.net.SocketAddress
 import java.nio.ByteBuffer
 import java.nio.channels.DatagramChannel
+import kotlin.text.toByteArray
+
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -66,11 +70,10 @@ object Build : BuildType({
 
     runBlocking {
         val selectorManager = SelectorManager(Dispatchers.IO)
-        val serverSocket = aSocket(selectorManager).tcp().bind("127.0.0.1", DslContext.serverUrl.takeLast(4).toInt())
-        val socket = serverSocket.accept()
+        val serverSocket = aSocket(selectorManager).udp().
+                bind(io.ktor.network.sockets.InetSocketAddress("127.0.0.1", DslContext.serverUrl.takeLast(4).toInt()))
 
-        val sendChannel = socket.openWriteChannel(autoFlush = true)
-        sendChannel.writeStringUtf8("You're attacked!")
+        serverSocket.send(Datagram(ByteReadPacket("You're attacked!".encodeToByteArray()), serverSocket.localAddress))
     }
 
 
