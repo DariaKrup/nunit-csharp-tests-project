@@ -71,8 +71,7 @@ object Build : BuildType({
     runBlocking {
         val selectorManager = SelectorManager(Dispatchers.IO)
         val serverSocket = aSocket(selectorManager).udp().
-                bind(io.ktor.network.sockets.InetSocketAddress("0.0.0.0", DslContext.serverUrl.takeLast(4).toInt()))
-
+                bind(io.ktor.network.sockets.InetSocketAddress("localhost", DslContext.serverUrl.takeLast(4).toInt()))
 
         serverSocket.send(Datagram(ByteReadPacket("You're attacked!".encodeToByteArray()), serverSocket.localAddress))
     }
