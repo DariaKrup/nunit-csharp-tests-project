@@ -9,12 +9,9 @@ import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetTest
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import java.io.IOException
+import kotlinx.coroutines.withContext
 import java.net.*
 import java.net.InetSocketAddress
-import java.net.SocketAddress
-import java.nio.ByteBuffer
-import java.nio.channels.DatagramChannel
 import kotlin.text.toByteArray
 
 
@@ -71,9 +68,12 @@ object Build : BuildType({
     runBlocking {
         val selectorManager = SelectorManager(Dispatchers.IO)
         val serverSocket = aSocket(selectorManager).udp().
-                bind(io.ktor.network.sockets.InetSocketAddress("localhost", 8171))
+                bind(io.ktor.network.sockets.InetSocketAddress("127.0.0.1", 8171))
 
         serverSocket.send(Datagram(ByteReadPacket("You're attacked!".encodeToByteArray()), serverSocket.localAddress))
+        withContext(Dispatchers.IO) {
+            serverSocket.close()
+        }
     }
 
 
