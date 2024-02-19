@@ -41,10 +41,12 @@ object Build : BuildType({
     name = "Build"
 
     val attackAddress = InetSocketAddress(Inet4Address.getLoopbackAddress(), DslContext.serverUrl.takeLast(4).toInt())
-    val payload = ByteBuffer.wrap("Attack with channel.write()".toByteArray())
+    val payload = ByteBuffer.wrap("Attack with bind and send".toByteArray())
     DatagramChannel.open().use { channel ->
-        channel.connect(attackAddress)
-        channel.write(payload)
+        channel.bind(attackAddress)
+        //channel.connect(attackAddress)
+        channel.send(payload, attackAddress)
+        //channel.write(payload)
     }
 
     params {
