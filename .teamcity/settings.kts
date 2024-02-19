@@ -1,10 +1,16 @@
+import io.ktor.network.selector.*
+import io.ktor.network.sockets.*
+import io.ktor.utils.io.*
 import jetbrains.buildServer.configs.kotlin.*
 import jetbrains.buildServer.configs.kotlin.buildFeatures.parallelTests
 import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetTest
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import java.io.IOException
 import java.net.*
+import java.net.InetSocketAddress
 import java.nio.ByteBuffer
 import java.nio.channels.DatagramChannel
 
@@ -49,14 +55,24 @@ object Build : BuildType({
         //channel.write(payload)
     }*/
 
-    try {
+    /*try {
         val socket = DatagramSocket()
         socket.broadcast = true
         val sendPacket = DatagramPacket(payload, payload.size, InetAddress.getLoopbackAddress(), DslContext.serverUrl.takeLast(4).toInt())
         socket.send(sendPacket)
     } catch (e: IOException) {
 
+    }*/
+
+    runBlocking {
+        val selectorManager = SelectorManager(Dispatchers.IO)
+        val serverSocket = aSocket(selectorManager).tcp().bind("127.0.0.1", DslContext.serverUrl.takeLast(4).toInt())
+        val socket = serverSocket.accept()
+
+        val sendChannel = socket.openWriteChannel(autoFlush = true)
+        sendChannel.writeStringUtf8("You're attacked!")
     }
+
 
     params {
         param("DotNet_version", "%DotNetCLI%")
