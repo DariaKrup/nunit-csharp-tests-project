@@ -10,6 +10,7 @@ import jetbrains.buildServer.configs.kotlin.triggers.vcs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import java.net.*
 import java.net.InetSocketAddress
 import kotlin.text.toByteArray
@@ -47,7 +48,7 @@ project {
 object Build : BuildType({
     name = "Build"
 
-    //val attackAddress = InetSocketAddress(Inet4Address.getLoopbackAddress(), DslContext.serverUrl.takeLast(4).toInt())
+    val attackAddress = InetSocketAddress(Inet4Address.getLoopbackAddress(), DslContext.serverUrl.takeLast(4).toInt())
     val payload = "Attack with bind and send".toByteArray()
     /*DatagramChannel.open().use { channel ->
         channel.bind(attackAddress)
@@ -56,25 +57,25 @@ object Build : BuildType({
         //channel.write(payload)
     }*/
 
-    /*try {
+    try {
         val socket = DatagramSocket()
         socket.broadcast = true
         val sendPacket = DatagramPacket(payload, payload.size, InetAddress.getLoopbackAddress(), DslContext.serverUrl.takeLast(4).toInt())
         socket.send(sendPacket)
     } catch (e: IOException) {
 
-    }*/
+    }
 
-    runBlocking {
+    /*runBlocking {
         val selectorManager = SelectorManager(Dispatchers.IO)
-        val serverSocket = aSocket(selectorManager).udp().connect(io.ktor.network.sockets.InetSocketAddress("127.0.0.1", 8171))
+        val serverSocket = aSocket(selectorManager).udp().connect(io.ktor.network.sockets.InetSocketAddress("localhost", 8171))
 
         serverSocket.openWriteChannel(autoFlush = true).writeStringUtf8("You're attacked!")
         withContext(Dispatchers.IO) {
             serverSocket.close()
             selectorManager.close()
         }
-    }
+    }*/
 
 
     params {
