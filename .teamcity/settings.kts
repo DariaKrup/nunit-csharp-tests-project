@@ -1,5 +1,6 @@
 import jetbrains.buildServer.configs.kotlin.*
 import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
+import jetbrains.buildServer.configs.kotlin.buildSteps.DotCoverBuildStep
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotCover
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetTest
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
@@ -64,9 +65,9 @@ object Build : BuildType({
             executable = "usr/bin/dotnet"
             commandLineArguments = """test %teamcity.build.checkoutDir%\DataDrivenTests\DataDrivenTests.csproj"""
             snapshotPaths = "*.dcvr"
-            param("plugin.docker.imagePlatform", "linux")
-            param("plugin.docker.pull.enabled", "true")
-            param("plugin.docker.imageId", "mcr.microsoft.com/dotnet/sdk:6.0")
+            dockerImage = "mcr.microsoft.com/dotnet/sdk:6.0"
+            dockerImagePlatform = DotCoverBuildStep.ImagePlatform.Linux
+            dockerPull = true
         }
     }
 
