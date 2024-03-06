@@ -62,13 +62,11 @@ object Build : BuildType({
             name = "Merge snapshots from the previous build steps + add one"
             id = "Merge_snapshots_from_the_previous_build_steps_add_one"
             toolPath = "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%"
-            executable = "usr/bin/dotnet"
+            executable = "/usr/bin/dotnet"
             commandLineArguments = """test %teamcity.build.checkoutDir%\DataDrivenTests\DataDrivenTests.csproj"""
-            snapshotPaths = "*.dcvr"
             dockerImage = "mcr.microsoft.com/dotnet/sdk:6.0"
             dockerImagePlatform = DotCoverBuildStep.ImagePlatform.Linux
             dockerPull = true
-            dockerRunParameters = "-i"
         }
     }
 
