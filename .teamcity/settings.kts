@@ -64,6 +64,7 @@ object Build : BuildType({
             toolPath = "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%"
             executable = "/usr/bin/dotnet"
             commandLineArguments = """test %teamcity.build.checkoutDir%\DataDrivenTests\DataDrivenTests.csproj"""
+            generateReport = false
             dockerImage = "mcr.microsoft.com/dotnet/sdk:6.0"
             dockerImagePlatform = DotCoverBuildStep.ImagePlatform.Linux
             dockerPull = true
