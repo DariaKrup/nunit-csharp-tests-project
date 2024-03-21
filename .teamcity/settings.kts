@@ -74,6 +74,11 @@ object Build : BuildType({
             id = "Echo_parameters"
             scriptContent = "echo %root_text% >> text.txt"
         }
+        script {
+            name = "Echo parameter"
+            id = "Echo_parameter"
+            scriptContent = "echo %root_text% >> text.txt"
+        }
     }
 
     triggers {
