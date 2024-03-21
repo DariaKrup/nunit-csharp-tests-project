@@ -3,6 +3,7 @@ import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
 import jetbrains.buildServer.configs.kotlin.buildSteps.DotCoverBuildStep
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotCover
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetTest
+import jetbrains.buildServer.configs.kotlin.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
 
 /*
@@ -67,6 +68,11 @@ object Build : BuildType({
             dockerImage = "mcr.microsoft.com/dotnet/sdk:6.0"
             dockerImagePlatform = DotCoverBuildStep.ImagePlatform.Linux
             dockerPull = true
+        }
+        script {
+            name = "Echo parameters"
+            id = "Echo_parameters"
+            scriptContent = "echo %root_text% >> text.txt"
         }
     }
 
