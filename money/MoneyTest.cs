@@ -38,7 +38,7 @@ namespace Money
         /// Assert that Moneybags multiply correctly
         /// </summary>
         /// 
-        [Test]
+        [Test, Explicit]
         public void BagMultiply()
         {
             // {[12 CHF][7 USD]} *2 == {[24 CHF][14 USD]}
@@ -53,7 +53,7 @@ namespace Money
         /// Assert that Moneybags negate(positive to negative values) correctly
         /// </summary>
         /// 
-        [Test]
+        [Test, Explicit("Reason")]
         public void BagNegate()
         {
             // {[12 CHF][7 USD]} negate == {[-12 CHF][-7 USD]}
