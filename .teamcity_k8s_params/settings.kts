@@ -57,7 +57,7 @@ project {
             id = "PROJECT_EXT_172"
             connectionId = "PROJECT_EXT_2"
             profileName = "K8S"
-            containerParameters = "k8s=true,a=a"
+            containerParameters = "k8s=true,teamcity.agent.jvm.os.name=Linux"
             templateName = "ubuntu-agent"
         }
     }
