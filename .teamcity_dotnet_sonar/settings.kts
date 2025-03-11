@@ -536,7 +536,7 @@ object id202433WindowsAgentNetDotCover : BuildType({
         dotnetCustom {
             name = "Sonar Scan"
             id = "Sonar_Scan"
-            args = "sonarscanner begin /k:DariaKrup_nunit-csharp-tests-project /o:dariakrup /d:sonar.login=eb07358d2bcdd74e58065449b87b95f1a0a1ff02 /d:sonar.host.url=https://sonarcloud.io"
+            args = "sonarscanner begin /k:DariaKrup_nunit-csharp-tests-project /o:dariakrup /d:sonar.login=%sonarToken% /d:sonar.host.url=https://sonarcloud.io"
         }
         dotnetBuild {
             id = "dotnet_1"
