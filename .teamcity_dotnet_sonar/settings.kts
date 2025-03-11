@@ -519,6 +519,10 @@ object id202433WindowsAgentNetDotCover : BuildType({
     id("202433WindowsAgentNetDotCover")
     name = "SONAR + 2024.3.3 (Windows agent): .Net + dotCover"
 
+    params {
+        password("sonarToken", "credentialsJSON:7e2a9f3b-2bf8-4ea2-9f53-a9c547d702ef")
+    }
+
     vcs {
         root(AbsoluteId("DotCoverRunner_HttpsGithubComDariaKrupNunitCsharpTestsProjectGitRefsHeadsMaster"))
     }
