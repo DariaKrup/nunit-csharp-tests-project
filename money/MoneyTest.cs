@@ -176,6 +176,19 @@ namespace Money
             ClassicAssert.IsFalse(f12CHF.Equals(f14CHF));
         }
 
+		[Test]
+        public void MoneyEqualsSecond()
+        {
+            //NOTE: Normally we use Assert.AreEqual to test whether two
+            // objects are equal. But here we are testing the MoneyBag.Equals()
+            // method itself, so using AreEqual would not serve the purpose.
+            ClassicAssert.IsTrue(f12CHF.Equals(null));
+            var equalMoney = new Money(12, "CHF");
+            ClassicAssert.IsTrue(f12CHF.Equals(f12CHF));
+            ClassicAssert.IsTrue(f12CHF.Equals(equalMoney));
+            ClassicAssert.IsFalse(f12CHF.Equals(f14CHF));
+        }
+
         /// <summary>
         /// Assert that the hash of new Money is the same as 
         /// the hash of initialized Money
@@ -316,3 +329,4 @@ namespace Money
         }
     }
 }
+
