@@ -189,19 +189,6 @@ namespace Money
             ClassicAssert.IsFalse(f12CHF.Equals(f14CHF));
         }
 
-		[Test]
-        public void MoneyEqualsMore()
-        {
-            //NOTE: Normally we use Assert.AreEqual to test whether two
-            // objects are equal. But here we are testing the MoneyBag.Equals()
-            // method itself, so using AreEqual would not serve the purpose.
-            ClassicAssert.IsFalse(f12CHF.Equals(null));
-            var equalMoney = new Money(12, "CHF");
-            ClassicAssert.IsTrue(f12CHF.Equals(f16CHF));
-            ClassicAssert.IsTrue(f12CHF.Equals(equalMoney));
-            ClassicAssert.IsFalse(f12CHF.Equals(f14CHF));
-        }
-
         /// <summary>
         /// Assert that the hash of new Money is the same as 
         /// the hash of initialized Money
@@ -239,6 +226,13 @@ namespace Money
         {
             // {[12 CHF][7 USD]} - [12 CHF] == [7 USD]
             var expected = new Money(7, "USD");
+            Assert.That(fMB1.Subtract(f12CHF), Is.EqualTo(expected));
+        }
+
+		public void NormalizeMore()
+        {
+            // {[12 CHF][7 USD]} - [12 CHF] == [7 USD]
+            var expected = new Money(9, "USD");
             Assert.That(fMB1.Subtract(f12CHF), Is.EqualTo(expected));
         }
 
@@ -342,5 +336,6 @@ namespace Money
         }
     }
 }
+
 
 
